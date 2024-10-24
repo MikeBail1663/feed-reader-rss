@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylish RSS Feed Reader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📰 RSS Feed Reader</h1>
+            <p>Fetch the latest updates from your favorite feeds!</p>
+        </header>
+
+        <form method="POST" class="rss-form">
+            <input type="url" name="rss_url" placeholder="Enter RSS feed URL" required>
+            <button type="submit">Fetch Feed</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {% if feed_title %}
+            <section class="feed">
+                <h2>{{ feed_title }}</h2>
+                <p class="description">{{ feed_description | safe }}</p> <!-- Use | safe here -->
+                <ul class="feed-items">
+                    {% for item in items %}
+                        <li class="feed-item">
+                            <a href="{{ item.link }}" target="_blank">{{ item.title }}</a>
+                            <div class="item-description">{{ item.description | safe }}</div> <!-- Use | safe here -->
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+    </div>
+</body>
+</html>
